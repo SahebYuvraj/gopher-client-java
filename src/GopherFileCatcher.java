@@ -3,6 +3,15 @@ import java.net.*;
 import java.nio.charset.StandardCharsets;
 
 public class GopherFileCatcher {
+
+     /**
+     * Fetches a text file from a Gopher server, applies tarpit/firehose logic,
+     * and updates the statistics object.
+     *
+     * @param item        The GopherItem describing the file
+     * @param stats       The statistics tracker
+     * @param logicalPath Logical full path of the file in the Gopher crawl
+     */
     public static void fetchTextFile(GopherItem item,GopherStats stats, String logicalPath) {
     try (Socket sock = new Socket(item.host, item.port)) {
         sock.setSoTimeout(5000); 
@@ -71,7 +80,13 @@ public class GopherFileCatcher {
     }
 }
 
-
+/**
+     * Fetches a binary file from a Gopher server and updates the statistics object.
+     *
+     * @param item        The GopherItem describing the binary file
+     * @param stats       The statistics tracker
+     * @param logicalPath Logical full path of the file
+     */
 public static void fetchBinaryFile(GopherItem item,GopherStats stats, String logicalPath) {
         try (Socket sock = new Socket(item.host, item.port)) {
             OutputStream out = sock.getOutputStream();
