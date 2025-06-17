@@ -7,7 +7,11 @@ public class GopherClient {
    
     static Map<String, Boolean> externalServers = new HashMap<>();
     static GopherStats stats = new GopherStats();
-    
+
+    /**
+     * Program entry point.
+     * @param args CLI arguments (unused)
+     */
     public static void main(String[] args) {
         
         String host = "comp3310.ddns.net";
@@ -26,7 +30,16 @@ public class GopherClient {
          printSummary();
         
     }
-    /** Recursively crawls a Gopher directory */
+
+     /**
+     * Recursively crawls a Gopher directory, logging each selector request and handling
+     * files and subdirectories.
+     *
+     * @param host     server hostname
+     * @param port     server port
+     * @param selector Gopher selector string
+     * @param path     accumulated logical path
+     */
     public static void crawl(String host, int port, String selector,String path) {
         String key = host + ":" + port + selector;
         if (visited.contains(key)) return;   // Skip already visited paths
@@ -87,7 +100,9 @@ public class GopherClient {
         }
     }
 
-
+    /**
+     * Checks connectivity to a server with a timeout.
+     */
     public static boolean checkExternalServer(String host, int port) {
         try (Socket socket = new Socket()) {
             socket.connect(new InetSocketAddress(host, port), 3000); // 3 sec timeout
@@ -97,7 +112,9 @@ public class GopherClient {
         }
     }
 
-
+    /**
+     * Prints a summary of the crawl: directories, files, sizes, and external servers.
+     */
     public static void printSummary() {
         System.out.println("\n===== Crawl Summary =====");
         System.out.printf("Number of Gopher directories: %d\n", stats.gopherDirectoryCount);
@@ -123,6 +140,9 @@ public class GopherClient {
         for (String ref : stats.invalidRefs) System.out.println(" - " + ref);
     }
 
+    /**
+     * Normalizes and combines path segments into a single, clean path.
+     */
     public static String normalizePath(String base, String selector) {
     String combined = base + "/" + selector;
     return combined.replaceAll("/{2,}", "/").replaceAll("/$", "");
