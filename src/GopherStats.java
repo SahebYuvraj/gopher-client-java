@@ -1,5 +1,9 @@
 import java.util.*;
 
+/**
+ * Collects and reports statistics related to the Gopher client crawl.
+ * Tracks file counts, sizes, paths, and edge-case references.
+ */
 public class GopherStats {
     public int gopherDirectoryCount = 0;
     public int textFileCount = 0;
